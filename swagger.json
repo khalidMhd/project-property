@@ -1,0 +1,1051 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "version": "1.0.0",
+        "title": "Drust Daam APIs",
+        "description": "User Project Application API",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "servers": [
+        {
+          "url": "https://drust-daam.herokuapp.com/api/",
+          "description": "Live server"
+        },
+        {
+          "url": "http://localhost:5000/api",
+          "description": "Local server"
+        }
+      ],
+    "tags": [
+        
+        {
+            "name": "Items",
+            "description": "APIs related to items."
+        },
+        {
+            "name": "Regulate",
+            "description": "APIs related to regulare items."
+        },
+        {
+            "name": "Category",
+            "description": "APIs related to item category."
+        },
+        {
+            "name": "Unit",
+            "description": "APIs related to item unit."
+        },
+        {
+            "name": "Area",
+            "description": "APIs related to area."
+        },
+        {
+            "name": "Complaint",
+            "description": "APIs related to user complaint."
+        },
+        {
+            "name": "User",
+            "description": "APIs related to User."
+        }
+    ],
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "paths": {
+        
+        "/items": {
+            "get": {
+                "security": [{ "bearerAuth": [] }],
+                "tags": [ "Items" ],
+                "summary": "Get all Items in the database.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Items"
+                        }
+                    }
+                }
+            },
+             "post": {
+                "security": [{ "bearerAuth": [] }],
+                "tags": [
+                    "Items"
+                ],
+                "summary": "Create a new item in system",
+                "requestBody": {
+                    "description": "Items Object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/Items"
+                            }
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed. Bad post data."
+                    }
+                }
+            }
+        },
+
+        "/items/{id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "description": "ID of the Items that we want to match",
+                    "type": "string"
+                }
+            ],
+            "delete": {
+                "security": [{ "bearerAuth": [] }],
+                "summary": "Delete Items with given ID",
+                "tags": [
+                    "Items"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "Delete Item with id",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Items"
+                        }
+                    },
+                    "404": {
+                        "description": "Failed. Items not found."
+                    }
+                }
+            },
+            "put": {
+                "security": [{ "bearerAuth": [] }],
+                "summary": "Update item with given ID",
+                "tags": [
+                    "Items"
+                ],
+                "requestBody": {
+                    "description": "Items Object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/Items"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "Items with new values of properties",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Items"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed. Bad post data."
+                    },
+                    "404": {
+                        "description": "Failed items not found."
+                    }
+                }
+            }
+        },
+
+        "/items/{categoryId}": {
+            "parameters": [
+                {
+                    "name": "categoryId",
+                    "in": "path",
+                    "required": true,
+                    "description": "CategoryId of the Items that we want to match",
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "security": [{ "bearerAuth": [] }],
+                "summary": "Get Items with given ID",
+                "tags": [
+                    "Items"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "categoryId",
+                        "required": true,
+                        "description": "get Item with categoryId",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Items"
+                        }
+                    },
+                    "404": {
+                        "description": "Failed. Items not found."
+                    }
+                }
+            }
+        },
+
+        "/items/{categoryId}/{date}": {
+            "get": {
+                "security": [{ "bearerAuth": [] }],
+                "summary": "get Items with given category ID and date",
+                "tags": [
+                    "Items"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "categoryId",
+                        "required": true,
+                        "description": "categoryId",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "date",
+                        "required": true,
+                        "description": "date",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Items"
+                        }
+                    },
+                    "404": {
+                        "description": "Failed. Items not found."
+                    }
+                }
+            }
+        },
+        
+        "/regulate/item": {
+            "get": {
+                "security": [{ "bearerAuth": [] }],
+                "tags": [ "Regulate" ],
+                "summary": "Get all regulare items in the database.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Regulate"
+                        }
+                    }
+                }
+            },
+             "post": {
+                "security": [{ "bearerAuth": [] }],
+                "tags": [
+                    "Regulate"
+                ],
+                "summary": "Create a new regulate items in system",
+                "requestBody": {
+                    "description": "Regulate Object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/Regulate"
+                            }
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed Bad post data."
+                    }
+                }
+            }
+        },
+
+        "/regulate/item/{id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "description": "ID of the regulate items that we want to match",
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "security": [{ "bearerAuth": [] }],
+                "summary": "get regulate item with itemId",
+                "tags": [
+                    "Regulate"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "get regulate item with itemId",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Regulate"
+                        }
+                    },
+                    "404": {
+                        "description": "Failed regulate items not found."
+                    }
+                }
+            }
+        },
+
+        "/regulate/itembydate/{date}": {
+            
+            "get": {
+                "security": [{ "bearerAuth": [] }],
+                "summary": "get item with date",
+                "tags": [
+                    "Regulate"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "date",
+                        "required": true,
+                        "description": "get item with date",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Regulate"
+                        }
+                    },
+                    "404": {
+                        "description": "Failed regulate items not found."
+                    }
+                }
+            }
+        },
+
+        "/unit": {
+            "get": {
+                "security": [{ "bearerAuth": [] }],
+                "tags": [ "Unit" ],
+                "summary": "Get all unit in the database.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Unit"
+                        }
+                    }
+                }
+            },
+             "post": {
+                "security": [{ "bearerAuth": [] }],
+                "tags": ["Unit"],
+                "summary": "Create a new unit in system",
+                "requestBody": {
+                    "description": "Unit Object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/Unit"
+                            }
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed Bad post data."
+                    }
+                }
+            }
+        },
+
+        "/unit/{id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "description": "ID of the unit that we want to match",
+                    "type": "string"
+                }
+            ],
+            "delete": {
+                "security": [{ "bearerAuth": [] }],
+                "summary": "Delete unit with given ID",
+                "tags": [
+                    "Unit"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "Delete unit with id",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Unit"
+                        }
+                    },
+                    "404": {
+                        "description": "Failed unit not found."
+                    }
+                }
+            },
+            "put": {
+                "security": [{ "bearerAuth": [] }],
+                "summary": "Update unit with given ID",
+                "tags": [
+                    "Unit"
+                ],
+                "requestBody": {
+                    "description": "Unit Object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/Unit"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "unit with new values of properties",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Unit"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed Bad post data."
+                    },
+                    "404": {
+                        "description": "Failed unit not found."
+                    }
+                }
+            }
+        },
+
+        "/category": {
+            "get": {
+                "security": [{ "bearerAuth": [] }],
+                "tags": [ "Category" ],
+                "summary": "Get all category in the database.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Category"
+                        }
+                    }
+                }
+            },
+             "post": {
+                "security": [{ "bearerAuth": [] }],
+                "tags": [ "Category" ],
+                "summary": "Create a new category in system",
+                "requestBody": {
+                    "description": "Category Object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/Category"
+                            }
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed Bad post data."
+                    }
+                }
+            }
+        },
+
+        "/category/{id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "description": "ID of the category that we want to match",
+                    "type": "string"
+                }
+            ],
+            "delete": {
+                "security": [{ "bearerAuth": [] }],
+                "summary": "Delete category with given ID",
+                "tags": [ "Category" ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "Delete category with id",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Category"
+                        }
+                    },
+                    "404": {
+                        "description": "Failed category not found."
+                    }
+                }
+            },
+            "put": {
+                "security": [{ "bearerAuth": [] }],
+                "summary": "Update category with given ID",
+                "tags": [ "Category" ],
+                "requestBody": {
+                    "description": "Category Object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/Category"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "Category with new values of properties",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Category"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed Bad post data."
+                    },
+                    "404": {
+                        "description": "Failed unit not found."
+                    }
+                }
+            }
+        },
+
+        "/area": {
+            "get": {
+                "security": [{ "bearerAuth": [] }],
+                "tags": [ "Area" ],
+                "summary": "Get all area in the database.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Area"
+                        }
+                    }
+                }
+            },
+             "post": {
+                "security": [{ "bearerAuth": [] }],
+                "tags": [ "Area" ],
+                "summary": "Create a new area in system",
+                "requestBody": {
+                    "description": "Area Object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/Area"
+                            }
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed Bad post data."
+                    }
+                }
+            }
+        },
+
+        "/area/{id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "description": "ID of the area that we want to match",
+                    "type": "string"
+                }
+            ],
+            "delete": {
+                "security": [{ "bearerAuth": [] }],
+                "summary": "Delete area with given ID",
+                "tags": [ "Area" ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "Delete area with id",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Area"
+                        }
+                    },
+                    "404": {
+                        "description": "Failed area not found."
+                    }
+                }
+            },
+            "put": {
+                "security": [{ "bearerAuth": [] }],
+                "summary": "Update area with given ID",
+                "tags": [ "Area" ],
+                "requestBody": {
+                    "description": "Area Object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/Area"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "description": "Area with new values of properties",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Area"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed Bad post data."
+                    },
+                    "404": {
+                        "description": "Failed unit not found."
+                    }
+                }
+            }
+        },
+
+        "/complaint": {
+            "get": {
+                "security": [{ "bearerAuth": [] }],
+                "tags": [ "Complaint" ],
+                "summary": "Get all complaint in the database.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Complaint"
+                        }
+                    }
+                }
+            },
+             "post": {
+                "security": [{ "bearerAuth": [] }],
+                "tags": [ "Complaint" ],
+                "summary": "Create a new Complaint in system",
+                "requestBody": {
+                    "description": "Complaint Object",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties":{
+                                    "media":{
+                                        "type": "string",
+                                        "format": "base64"
+                                    }
+                                },
+                                "$ref": "#/definitions/Complaint"
+                            }
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed Bad post data."
+                    }
+                }
+            }
+        },
+
+        "/signin": {
+             "post": {
+                "tags": [ "User" ],
+                "summary": "Login in system",
+                "requestBody": {
+                    "description": "User Object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/Login"
+                            }
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed Bad post data."
+                    }
+                }
+            }
+        },
+
+        "/update/password": {
+             "put": {
+                "security": [{ "bearerAuth": [] }],
+                "tags": [ "User" ],
+                "summary": "Update password in system",
+                "requestBody": {
+                    "description": "User Object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/UpdatePassword"
+                            }
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/id"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed Bad post data."
+                    }
+                }
+            }
+        }
+       
+    },
+
+    "definitions": {
+        "id": {
+            "properties": {
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        
+        "Items": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "minPrice": {
+                    "type": "number"
+                },
+                "maxPrice": {
+                    "type": "number"
+                },
+                "unitId": {
+                    "type": "string"
+                },
+                "categoryId": {
+                    "type": "string"
+                },
+                "isActive": {
+                    "type": "boolean"
+                }
+            }
+        },
+        
+        "Regulate": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "itemId": {
+                    "type": "string"
+                },
+                "minPrice": {
+                    "type": "number"
+                },
+                "maxPrice": {
+                    "type": "number"
+                }
+            }
+        },
+        
+        "Category": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "isActive": {
+                    "type": "boolean"
+                }
+            }
+        },
+        
+        "Unit": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "isActive": {
+                    "type": "boolean"
+                }
+            }
+        },
+        
+        "Area": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "isActive": {
+                    "type": "boolean"
+                }
+            }
+        },
+        
+        "Complaint": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "contactNo": {
+                    "type": "string"
+                },
+                "detail": {
+                    "type": "string"
+                },
+                "image": {
+                    "type": "file"
+                }
+            }
+        },
+        
+        "Login": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        
+        "UpdatePassword": {
+            "type": "object",
+            "properties": {
+                "currentPassword": {
+                    "type": "string"
+                },
+                "updatePassword": {
+                    "type": "string"
+                }
+            }
+        }
+    
+    }
+}
